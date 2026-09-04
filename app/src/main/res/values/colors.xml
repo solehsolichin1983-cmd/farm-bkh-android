@@ -1,0 +1,8 @@
+<resources>
+    <color name="farm_green">#0E5A3F</color>
+    <color name="farm_green_dark">#093F2E</color>
+    <color name="farm_gold">#E8B23F</color>
+    <color name="white">#FFFFFF</color>
+    <color name="surface">#F5F8F7</color>
+    <color name="text_primary">#13251E</color>
+</resources>
