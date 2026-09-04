@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -37,15 +37,30 @@ jobs:
       - name: Build debug APK
         run: gradle :app:assembleDebug --stacktrace
 
+      - name: Prepare APK filename
+        run: cp app/build/outputs/apk/debug/app-debug.apk FARM_BKH_ANDROID_V1.0a.apk
+
       - name: Verify APK
         run: |
-          test -f app/build/outputs/apk/debug/app-debug.apk
-          ls -lh app/build/outputs/apk/debug/app-debug.apk
+          test -f FARM_BKH_ANDROID_V1.0a.apk
+          ls -lh FARM_BKH_ANDROID_V1.0a.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: FARM_BKH_ANDROID_V1.0a_APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: FARM_BKH_ANDROID_V1.0a.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish APK to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0a
+          name: FARM BKH Android V1.0a
+          body: |
+            FARM BKH Android V1.0a - Web GAS Mobile App
+            Built automatically by GitHub Actions.
+          files: FARM_BKH_ANDROID_V1.0a.apk
+          draft: false
+          prerelease: false
